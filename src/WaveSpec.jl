@@ -1,5 +1,9 @@
 module WaveSpec
 
-# Write your package code here.
+export Constants
+
+include("constants.jl")
+include("jonswap.jl")
+include("waveTimeSeries.jl")
 
 end

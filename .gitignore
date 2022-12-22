@@ -11,4 +11,5 @@ tmp/
 */.ipynb_checkpoints/*
 *.vtu
 *.pvsm
+output/*
 
