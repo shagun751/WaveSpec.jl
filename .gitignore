@@ -7,3 +7,8 @@
 Manifest.toml
 docs/build/
 tmp/
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.vtu
+*.pvsm
+
