@@ -1,6 +1,5 @@
 using WaveSpec
 using Test
 
-@testset "WaveSpec.jl" begin
-    # Write your tests here.
-end
+@time @testset "JONSWAP" begin include("testJonswap.jl") end
+@time @testset "Beats" begin include("testBeats.jl") end
