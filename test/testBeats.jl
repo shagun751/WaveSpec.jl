@@ -1,9 +1,5 @@
 # Simulate single and two freq to observe the beats effect
-
-module run_wave
-include("../src/constants.jl")
-include("../src/waveTimeSeries.jl")
- 
+using   WaveSpec
 using   Plots
 using   .Constants
 using   .WaveTimeSeries
@@ -18,5 +14,3 @@ t=0:0.1:500
 # η, ϕ, u, w = waveStokes2nd1D(30, ω[1], A[1], k[1], α[1], t)
 
 @show k
-
-end

@@ -16,7 +16,7 @@ function randomPhase(ω; seed = 1234)
   # Seeding is needed to generate the same 
   # array of random numbers every time
   Random.seed!(seed) 
-  ϕ = rand(Uniform(0,2π), length(ω))
+  ϕ = rand(Uniform(-π,π), length(ω))
   return ϕ
 end
 

@@ -1,9 +1,8 @@
 # Simulate single and two freq to observe the beats effect
 
 module run_wave
-include("../src/constants.jl")
-include("../src/waveTimeSeries.jl")
- 
+
+using   WaveSpec
 using   Plots
 using   .Constants
 using   .WaveTimeSeries

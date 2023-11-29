@@ -80,20 +80,20 @@ function jonswap(Hₛ::Real, Tₚ::Real,
   
 
   if(plotflag)
-    plt1 = plot(ω, S, linewidth=3, 
+    plt1 = plot(ω, S, linewidth=3, dpi=330, 
     xlabel = "ω (rad/s)",
     ylabel = "S (m^2 s/rad)",
-    label = "Spectral density",
-    xticks = 0:0.2:ωc,
-    yticks = 0:2:maximum(S))
+    label = "Spectral density")#,
+    #xticks = 0:0.2:ωc,
+    #yticks = 0:2:maximum(S))
     #plot!(size = (1280, 640))
     savefig(plt1,plotloc*"jonswap_specdensity.png")
 
-    plt2 = plot(ω, A, linewidth=3, 
+    plt2 = plot(ω, A, linewidth=3, dpi=330,
     xlabel = "ω (rad/s)",
     ylabel = "Amplitude (m)",
-    label = "Amplitude",
-    xticks = 0:0.2:ωc)
+    label = "Amplitude")#,
+    #xticks = 0:0.2:ωc)
     #plot!(size = (1280, 640))
     savefig(plt2,plotloc*"jonswap_amplitude.png")
   end
@@ -115,6 +115,15 @@ function getJonswapPeakedness(Hₛ::Real, Tₚ::Real)
   end
 
   return maximum([γ, 1.0])
+end
+
+
+"""
+Estimation of Hs, given Tp and gamma
+"""
+
+function estimateHs(Tp, γ = 3.3)
+  return (0.11661 + 0.01581*γ - 0.00065*γ*γ)*Tp*Tp
 end
 
 end

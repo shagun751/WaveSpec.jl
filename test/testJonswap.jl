@@ -1,10 +1,7 @@
-include("../src/jonswapThomas.jl")
-include("../src/constants.jl")
-include("../src/jonswap.jl")
-include("../src/waveTimeSeries.jl")
- 
+# Generate JONSWAP spectrum
+
+using   WaveSpec
 using   Plots
-using   .Wave
 using   .Constants
 using   .Jonswap
 using   .WaveTimeSeries
