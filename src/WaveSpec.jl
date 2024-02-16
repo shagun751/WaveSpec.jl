@@ -1,10 +1,11 @@
 module WaveSpec
 
-export Constants, Jonswap, WaveTimeSeries, WaveFreqDom
+using Revise 
 
-include("constants.jl")
-include("jonswap.jl")
-include("waveFreqDom.jl")
-include("waveTimeSeries.jl")
+include("Constants.jl")
+include("Jonswap.jl")
+include("WaveTimeSeries.jl")
+
+export Constants, Jonswap, WaveTimeSeries
 
 end

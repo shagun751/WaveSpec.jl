@@ -7,6 +7,15 @@ using Distributions
 export g, dispersionRel, dispersionRelAng
 export randomPhase
 export simpsonInteg1D, trapzInteg1D, gaussQuad1D
+export SpecStruct
+
+
+"""
+Common
+======
+
+"""
+# ---------------------Start---------------------
 
 g = 9.81 #accel due to gravity
 
@@ -19,9 +28,49 @@ function randomPhase(ω; seed = 1234)
   ϕ = rand(Uniform(-π,π), length(ω))
   return ϕ
 end
+# ----------------------End----------------------
 
 
-#----------- Dispersion Rel ----------#
+
+
+"""
+Struct: SpecStruct
+===============
+
+"""
+# ---------------------Start---------------------
+struct SpecStruct
+  h0::Real
+  ω::Vector{Real}
+  S::Vector{Real}
+  A::Vector{Real}
+  k::Vector{Real}
+  α::Vector{Real}
+  nω::Integer
+  Hs::Real 
+  Tp::Real  
+
+  function SpecStruct( h0::Real, ω::Vector{<:Real},
+    S::Vector{<:Real}, A::Vector{<:Real}, k::Vector{<:Real},
+    α::Vector{<:Real};
+    Hs = -99.0, Tp = -99.0 )
+
+    nω = length(ω)
+    new( h0, ω, S, A, k, α, nω, Hs, Tp )    
+  end
+
+end
+# ----------------------End----------------------
+
+
+
+
+"""
+Function: dispersionRel()
+=======================
+
+"""
+# ---------------------Start---------------------
 function dispersionRel(h::Real, T::Real; msg::Bool=true)
 
   f(L) = L-(g/2/π*T*T*tanh(2*π/L*h))
@@ -54,10 +103,17 @@ function dispersionRelAng(h::Real, ω::Real; msg::Bool=true)
   
   return k
 end
-#--------- End Dispersion Rel --------#
+# ----------------------End----------------------
 
 
-#------------ Integration ------------#
+
+
+"""
+Integration
+===========
+
+"""
+# ---------------------Start---------------------
 function simpsonInteg1D(y, dx)
   ind = 1:length(y)  
   w = ifelse.(iseven.(ind), 4, 2)  
@@ -91,6 +147,7 @@ function gaussQuad1D(y, dx)
 
   return sum(yq1 + yq2)*dx/2
 end
-#---------- End Integration ----------#
+# ----------------------End----------------------
+
 
 end

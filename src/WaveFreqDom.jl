@@ -3,9 +3,11 @@ module WaveFreqDom
 # This next section compiles the wave from 
 # all seperate waves into one irregular wave
 
-include("../src/constants.jl")
+using Revise
+# using DrWatson
+# @quickactivate "WaveSpec"
 
-using .Constants
+using WaveSpec.Constants
 
 export waveAiry1DFreq
 

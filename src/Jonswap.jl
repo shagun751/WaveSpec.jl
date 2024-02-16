@@ -1,14 +1,23 @@
 module Jonswap
 
-include("../src/constants.jl")
+using Revise
+# using DrWatson
+# @quickactivate "WaveSpec"
 
 using Plots
-using .Constants
+using WaveSpec.Constants
 
 export jonswap
 
+
+"""
+Function: jonswap()
+===================
+
 # Description
 # ωc = cutoff freq (default 33/Tₚ)
+"""
+# ---------------------Start---------------------
 
 function jonswap(Hₛ::Real, Tₚ::Real, 
   γ::Real = getJonswapPeakedness(Hₛ, Tₚ);
@@ -125,5 +134,7 @@ Estimation of Hs, given Tp and gamma
 function estimateHs(Tp, γ = 3.3)
   return (0.11661 + 0.01581*γ - 0.00065*γ*γ)*Tp*Tp
 end
+
+# ----------------------End----------------------
 
 end
