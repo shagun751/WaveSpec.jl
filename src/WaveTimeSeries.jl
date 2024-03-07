@@ -167,8 +167,7 @@ end
 
 
 #------------- timeRamp --------------#
-function timeRamp(t::Real,
-  t0, t1, t2, tEnd)
+function timeRamp(t::Real, t0, t1, t2, tEnd)
 
   if(t1 ≤ t ≤ t2)
     return 1.0
@@ -176,6 +175,18 @@ function timeRamp(t::Real,
     return 0.5*( 1.0 - cos(π*(t - t0) / (t1-t0)) )
   elseif(t2 < t < tEnd)
     return 0.5*( 1.0 - cos(π*(tEnd - t) / (tEnd-t2)) )
+  else
+    return 0.0
+  end
+
+end
+
+function timeRamp(t::Real, t0, t1)
+
+  if(t1 ≤ t )
+    return 1.0
+  elseif(t0 < t < t1)
+    return 0.5*( 1.0 - cos(π*(t - t0) / (t1-t0)) )  
   else
     return 0.0
   end
