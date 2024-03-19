@@ -8,7 +8,7 @@ using Revise
 # @quickactivate "WaveSpec"
 
 using WaveSpec.Constants
-using Gridap
+
 
 export waveAiry1D, timeRamp, waveAiry1D_pPos, waveAiry1D_eta
 
