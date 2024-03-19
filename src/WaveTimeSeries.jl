@@ -8,8 +8,9 @@ using Revise
 # @quickactivate "WaveSpec"
 
 using WaveSpec.Constants
+using Gridap
 
-export waveAiry1D, timeRamp, waveAiry1D_pPos
+export waveAiry1D, timeRamp, waveAiry1D_pPos, waveAiry1D_eta
 
 
 #------------- waveAiry1D ------------#
@@ -99,6 +100,42 @@ function waveAiry1D( params, t::Real)
   return η, ϕ, u, w
 end
 #----------- End waveAiry1D ----------#
+
+
+
+#------------- waveAiry1D_eta ------------#
+
+function waveAiry1D_eta(sp::SpecStruct, t, x, z; 
+  x0::Real = 0)    
+
+  return waveAiry1D_eta(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
+    t, x, z; 
+    x0 = x0)
+  
+end
+
+
+function waveAiry1D_eta(h0::Real, ω, A, k, α, t::Real,
+  x, z; x0::Real=0)    
+
+  params = (h0, ω, A, k, α, x0, x, z)
+  
+  return waveAiry1D_eta( params, t)  
+  
+end
+
+
+function waveAiry1D_eta( params, t::Real)    
+
+  h0, ω, A, k, α, x0, x, z = params
+
+  αₘ = k*(x-x0) - ω*t + α
+
+  η = sum( A .* cos.(αₘ) )
+
+  return η
+end
+#----------- End waveAiry1D_eta ----------#
 
 
 
