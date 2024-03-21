@@ -20,11 +20,13 @@ Common
 g = 9.81 #accel due to gravity
 
 
-function randomPhase(ω; seed = 1234)
+function randomPhase(ω; seed::Int64 = -1)
 
   # Seeding is needed to generate the same 
   # array of random numbers every time
-  Random.seed!(seed) 
+  if(seed > 0)
+    Random.seed!(seed) 
+  end
   ϕ = rand(Uniform(-π,π), length(ω))
   return ϕ
 end
