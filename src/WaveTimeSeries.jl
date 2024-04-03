@@ -11,6 +11,7 @@ using WaveSpec.Constants
 
 
 export waveAiry1D, timeRamp, waveAiry1D_pPos, waveAiry1D_eta
+export waveAiry1D_vel
 
 
 #------------- waveAiry1D ------------#
@@ -83,6 +84,8 @@ function waveAiry1D( params, t::Real)
 
   αₘ = k*(x-x0) - ω*t + α
 
+  snkh0 = sinh.(k*h0)
+
   η = sum( A .* cos.(αₘ) )
 
   ϕ = sum( ifelse.( ω .> 0,
@@ -90,11 +93,11 @@ function waveAiry1D( params, t::Real)
     0.0 ) )
   
   u = sum( ifelse.( ω .> 0, 
-    A .* ω .* cos.(αₘ) .* cosh.(k*(h0+z)) ./ sinh.(k*h0),
+    A .* ω .* cos.(αₘ) .* cosh.(k*(h0+z)) ./ snkh0,
     0.0 ) )
   
   w = sum( ifelse.( ω .> 0, 
-    A .* ω .* sin.(αₘ) .* sinh.(k*(h0+z)) ./ sinh.(k*h0),
+    A .* ω .* sin.(αₘ) .* sinh.(k*(h0+z)) ./ snkh0,
     0.0 ) )
 
   return η, ϕ, u, w
@@ -186,19 +189,64 @@ function waveAiry1D_pPos( params, t::Real)
 
   αₘ = k*(x-x0) - ω*t + α
 
+  snkh0 = sinh.(k*h0)
+
   η = sum( A .* cos.(αₘ) )  
   
   px = sum( ifelse.( ω .> 0, 
-    - A .* sin.(αₘ) .* cosh.(k*(h0+z)) ./ sinh.(k*h0),
+    - A .* sin.(αₘ) .* cosh.(k*(h0+z)) ./ snkh0,
     0.0 ) )
   
   py = sum( ifelse.( ω .> 0, 
-    A .* cos.(αₘ) .* sinh.(k*(h0+z)) ./ sinh.(k*h0),
+    A .* cos.(αₘ) .* sinh.(k*(h0+z)) ./ snkh0,
     0.0 ) )
 
   return η, px, py
 end
 #----------- End waveAiry1D_pPos ----------#
+
+
+
+#------------- waveAiry1D_vel ------------#
+
+function waveAiry1D_vel(sp::SpecStruct, t, x, z; 
+  x0::Real = 0)    
+
+  return waveAiry1D_vel(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
+    t, x, z; 
+    x0 = x0)
+  
+end
+
+
+function waveAiry1D_vel(h0::Real, ω, A, k, α, t::Real,
+  x, z; x0::Real=0)    
+
+  params = (h0, ω, A, k, α, x0, x, z)
+  return waveAiry1D_vel( params, t)  
+  
+end
+
+
+function waveAiry1D_vel( params, t::Real)    
+
+  h0, ω, A, k, α, x0, x, z = params
+
+  αₘ = k*(x-x0) - ω*t + α
+
+  snkh0 = sinh.(k*h0)
+
+  u = sum( ifelse.( ω .> 0, 
+    A .* ω .* cos.(αₘ) .* cosh.(k*(h0+z)) ./ snkh0,
+    0.0 ) )
+  
+  w = sum( ifelse.( ω .> 0, 
+    A .* ω .* sin.(αₘ) .* sinh.(k*(h0+z)) ./ snkh0,
+    0.0 ) )
+
+  return u, w
+end
+#----------- End waveAiry1D_vel ----------#
 
 
 

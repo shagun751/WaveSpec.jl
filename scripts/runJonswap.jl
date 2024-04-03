@@ -42,13 +42,13 @@ t=0:0.1:1200
 t=0.6
 η, ϕ, u, w = waveAiry1D(sp, t, 0.1, -0.1)
 @show η, ϕ, u, w
-η, px, py = waveAiry1D_particle(sp, t, 0.1, -0.1)
+η, px, py = waveAiry1D_pPos(sp, t, 0.1, -0.1)
 @show η, px, py
 
 t=0:0.1:1200
 η, ϕ, u, w = waveAiry1D(sp, t, 0.1, -0.1)
 
-η, px, py = waveAiry1D_particle(sp, t, 0.1, -0.1)
+η, px, py = waveAiry1D_pPos(sp, t, 0.1, -0.1)
 
 plot(t, η, dpi=330)
 savefig(pltFolder*"ts_elevation.png")
