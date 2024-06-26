@@ -10,7 +10,8 @@ using Revise
 using WaveSpec.Constants
 
 
-export waveAiry1D, timeRamp, waveAiry1D_pPos, waveAiry1D_eta
+export waveAiry1D, timeRamp, timeRampDt
+export waveAiry1D_pPos, waveAiry1D_eta
 export waveAiry1D_vel
 
 
@@ -272,6 +273,19 @@ function timeRamp(t::Real, t0, t1)
     return 1.0
   elseif(t0 < t < t1)
     return 0.5*( 1.0 - cos(π*(t - t0) / (t1-t0)) )  
+  else
+    return 0.0
+  end
+
+end
+
+
+function timeRampDt(t::Real, t0, t1)
+
+  if(t1 ≤ t )
+    return 0.0
+  elseif(t0 < t < t1)
+    return 0.5*π/(t1-t0) * sin(π*(t - t0) / (t1-t0))    
   else
     return 0.0
   end
