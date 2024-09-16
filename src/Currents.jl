@@ -5,7 +5,7 @@ using Revise
 # @quickactivate "WaveSpec"
 
 using WaveSpec.Constants
-using Interpolations
+using PCHIPInterpolation
 
 export CurrentStat, getCurrent
 
@@ -20,7 +20,7 @@ struct CurrentStat
   h0::Real
   d::Vector{Real} #d=0 at mean sea level
   ux::Vector{Real}
-  itp::Interpolations.GriddedInterpolation
+  itp::PCHIPInterpolation.Interpolator
 
   function CurrentStat(h0::Real, 
     d::Vector{<:Real}, ux::Vector{<:Real})
@@ -33,9 +33,10 @@ struct CurrentStat
     
     # @show d
     # @show ux
-
-    nodes = (d,)
-    itp = interpolate(nodes, ux, Gridded(Linear()))
+    
+    # PCHIP Inteprolation
+    # itp = Interpolator(d, ux) #no extrapolation
+    itp = Interpolator(d, ux, extrapolate = true)
     @show itp
     
     new(h0, d, ux, itp)  
