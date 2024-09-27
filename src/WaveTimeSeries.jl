@@ -10,7 +10,8 @@ using Revise
 using WaveSpec.Constants
 
 
-export waveAiry1D, timeRamp, timeRampDt
+export waveAiry1D
+export TimeRampType, timeRamp, timeRampDt
 export waveAiry1D_pPos, waveAiry1D_eta
 export waveAiry1D_vel
 
@@ -248,6 +249,45 @@ function waveAiry1D_vel( params, t::Real)
   return u, w
 end
 #----------- End waveAiry1D_vel ----------#
+
+
+
+
+#----------- TimeRampType ------------#
+struct TimeRampType1 
+  t0::Real
+  t1::Real  
+end
+
+struct TimeRampType2 
+  t0::Real
+  t1::Real  
+  t2::Real  
+  tEnd::Real  
+end
+
+function TimeRampType(t0, t1)
+  TimeRampType1(t0, t1)
+end
+
+function TimeRampType(t0, t1, t2, tEnd)
+  TimeRampType2(t0, t1, t2, tEnd)
+end
+
+function timeRamp(t::Real, tRampObj::TimeRampType1)
+  timeRamp(t, tRampObj.t0, tRampObj.t1)
+end
+
+function timeRamp(t::Real, tRampObj::TimeRampType2)
+  timeRamp(t, 
+    tRampObj.t0, tRampObj.t1, 
+    tRampObj.t2, tRampObj.tEnd)
+end
+
+function timeRampDt(t::Real, tRampObj::TimeRampType1)
+  timeRampDt(t, tRampObj.t0, tRampObj.t1)
+end
+#--------- End TimeRampType ----------#
 
 
 
