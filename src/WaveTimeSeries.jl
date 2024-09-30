@@ -8,6 +8,7 @@ using Revise
 # @quickactivate "WaveSpec"
 
 using WaveSpec.Constants
+using Parameters
 
 
 export waveAiry1D
@@ -146,13 +147,28 @@ end
 
 #------------- waveAiry1D_pPos ------------#
 
-function waveAiry1D_pPos(sp::SpecStruct, t, x, z; 
+# function waveAiry1D_pPos(sp::SpecStruct, t, x, z; 
+#   x0::Real = 0)    
+
+#   return waveAiry1D_pPos(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
+#     t, x, z; 
+#     x0 = x0)
+  
+# end
+function waveAiry1D_pPos(sp::SpecStruct, t::Real, x::Real, z::Real; 
   x0::Real = 0)    
 
-  return waveAiry1D_pPos(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
-    t, x, z; 
-    x0 = x0)
+  @unpack h0, k, ω, ηVec, pxVec, pzVec = sp
+
+  αm = k*(x-x0) - ω*t 
+  expiαm = exp.(im*αm)
+  coefz = k*(h0+z)
+
+  η = real( transpose(ηVec) * expiαm )
+  px = transpose(cosh.(coefz)) * real( (pxVec .* expiαm) )
+  pz = transpose(sinh.(coefz)) * real( (pzVec .* expiαm) )
   
+  return η, px, pz
 end
 
 
@@ -211,13 +227,48 @@ end
 
 #------------- waveAiry1D_vel ------------#
 
-function waveAiry1D_vel(sp::SpecStruct, t, x, z; 
+# function waveAiry1D_vel(sp::SpecStruct, t, x, z; 
+#   x0::Real = 0)    
+
+#   return waveAiry1D_vel(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
+#     t, x, z; 
+#     x0 = x0)
+  
+# end
+# function waveAiry1D_vel(sp::SpecStruct, t::Real, x::Real, z::Real; 
+#   x0::Real = 0)    
+
+#   @unpack h0, k, ω, uVec, wVec, α, A = sp
+
+#   αm = k*(x-x0) - ω*t 
+#   expiαm = exp.(im*αm)
+#   expiα = exp.(im*α)
+#   coefz = k*(h0+z)
+#   ph = expiαm .* expiα
+#   cosαm = real.(ph)
+#   sinαm = imag.(ph)
+
+#   u = (uVec .* cosh.(coefz))' * cosαm
+#   w = (wVec .* sinh.(coefz))' * sinαm
+
+#   return u, w    
+# end
+function waveAiry1D_vel(sp::SpecStruct, t::Real, x::Real, z::Real; 
   x0::Real = 0)    
 
-  return waveAiry1D_vel(sp.h0, sp.ω, sp.A, sp.k, sp.α, 
-    t, x, z; 
-    x0 = x0)
-  
+  @unpack h0, k, ω, uVec, wVec = sp
+
+  αm = k*(x-x0) - ω*t 
+  expiαm = exp.(im*αm)
+  coefz = k*(h0+z)
+
+  # u = real(transpose(cosh.(coefz)) * (uVec .* expiαm) )
+  # w = real(transpose(sinh.(coefz)) * (wVec .* expiαm) ) 
+
+  u = transpose(cosh.(coefz)) * real( (uVec .* expiαm) )
+  w = transpose(sinh.(coefz)) * real( (wVec .* expiαm) ) 
+
+  return u, w    
 end
 
 

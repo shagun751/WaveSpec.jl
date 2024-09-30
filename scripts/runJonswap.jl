@@ -5,6 +5,7 @@ using   Revise
 using   DrWatson
 @quickactivate "WaveSpec"
 
+using   TickTock
 using   WaveSpec
 using   Plots
 using   .Constants
@@ -42,13 +43,35 @@ t=0:0.1:1200
 t=0.6
 η, ϕ, u, w = waveAiry1D(sp, t, 0.1, -0.1)
 @show η, ϕ, u, w
-η, px, py = waveAiry1D_pPos(sp, t, 0.1, -0.1)
-@show η, px, py
+η, px, pz = waveAiry1D_pPos(sp, t, 0.1, -0.1)
+@show η, px, pz
 
+tick()
+@show u, w = waveAiry1D_vel(sp, 10, 0.1, -0.1)
+@show u, w = waveAiry1D_vel(sp, 100, 10, -1)
+tock()
+
+tick()
+for i = 1:1000
+    local u, w    
+    waveAiry1D_vel(sp, 10, 0.1, -0.1)
+    waveAiry1D_vel(sp, 100, 10, -1)
+end
+tock()
+
+tick()
 t=0:0.1:1200
 η, ϕ, u, w = waveAiry1D(sp, t, 0.1, -0.1)
+tock()
 
-η, px, py = waveAiry1D_pPos(sp, t, 0.1, -0.1)
+tick()
+res = [ waveAiry1D_pPos(sp, ti, 0.1, -0.1 ) for ti in t ]
+η = [x[1] for x in res]
+px = [x[2] for x in res]
+pz = [x[3] for x in res]
+# η, px, pz = waveAiry1D_pPos(sp, t, 0.1, -0.1 )
+# @show res
+tock()
 
 plot(t, η, dpi=330)
 savefig(pltFolder*"ts_elevation.png")
@@ -65,8 +88,8 @@ savefig(pltFolder*"ts_velw.png")
 plot(t, px, dpi=330)
 savefig(pltFolder*"ts_px.png")
 
-plot(t, py, dpi=330)
-savefig(pltFolder*"ts_py.png")
+plot(t, pz, dpi=330)
+savefig(pltFolder*"ts_pz.png")
 
 
 # end

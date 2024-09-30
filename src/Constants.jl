@@ -52,16 +52,91 @@ struct SpecStruct
   Hs::Real 
   Tp::Real  
 
+  ηVec::Vector{Complex}
+  ϕVec::Vector{Complex}
+  uVec::Vector{Complex}
+  wVec::Vector{Complex}
+  pxVec::Vector{Complex}  
+  pzVec::Vector{Complex}  
+
+
   function SpecStruct( h0::Real, ω::Vector{<:Real},
     S::Vector{<:Real}, A::Vector{<:Real}, k::Vector{<:Real},
     α::Vector{<:Real};
     Hs = -99.0, Tp = -99.0 )
 
-    nω = length(ω)
-    new( h0, ω, S, A, k, α, nω, Hs, Tp )    
+    nω = length(ω)    
+    ηVec, ϕVec, uVec, wVec, pxVec, pzVec = calcSpecConstants(h0, ω, A, k, α)    
+    new( h0, ω, S, A, k, α, nω, Hs, Tp,
+      ηVec, ϕVec, uVec, wVec, pxVec, pzVec )    
   end
 
 end
+
+
+function calcSpecConstants(h0, ω, A, k, α)
+
+  snkh0 = sinh.(k*h0)
+  expiα = exp.(im*α)
+
+  η = ifelse.( ω .> 0,
+    A .* expiα,
+    A .+ 0.0*im )  # To allow for mean value
+
+  ϕ = ifelse.( ω .> 0,
+    -im * g* A ./ ω .* expiα ./ cosh.(k*h0),
+    0.0 + 0.0*im )
+
+  u = ifelse.( ω .> 0, 
+    A .* ω .* expiα ./ snkh0,
+    0.0 + 0.0*im )
+
+  w = ifelse.( ω .> 0, 
+    -im * A .* ω .* expiα ./ snkh0,
+    0.0 + 0.0*im ) 
+  
+  px = ifelse.( ω .> 0, 
+    im * A .* expiα ./ snkh0,
+    0.0 + 0.0*im )
+  
+  pz = ifelse.( ω .> 0, 
+    A .* expiα ./ snkh0,
+    0.0 + 0.0*im )  
+  
+  return η, ϕ, u, w, px, pz
+end
+
+
+# function calcSpecConstants(h0, ω, A, k, α)
+
+#   snkh0 = sinh.(k*h0)  
+
+#   η = ifelse.( ω .> 0,
+#     A,
+#     0.0 )
+
+#   ϕ = ifelse.( ω .> 0,
+#     g* A ./ ω ./ cosh.(k*h0),
+#     0.0 )
+
+#   u = ifelse.( ω .> 0, 
+#     A .* ω ./ snkh0,
+#     0.0 + 0.0*im )
+
+#   w = ifelse.( ω .> 0, 
+#     A .* ω ./ snkh0,
+#     0.0 + 0.0*im ) 
+  
+#   px = ifelse.( ω .> 0, 
+#     A ./ snkh0,
+#     0.0 )
+  
+#   pz = ifelse.( ω .> 0, 
+#     A  ./ snkh0,
+#     0.0 )
+
+#   return η, ϕ, u, w, px, pz
+# end
 # ----------------------End----------------------
 
 
