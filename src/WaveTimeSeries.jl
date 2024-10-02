@@ -155,7 +155,8 @@ end
 #     x0 = x0)
   
 # end
-function waveAiry1D_pPos(sp::SpecStruct, t::Real, x::Real, z::Real; 
+function waveAiry1D_pPos(sp::SpecStruct, 
+  t::Real, x::Real, z::Real; 
   x0::Real = 0)    
 
   @unpack h0, k, ω, ηVec, pxVec, pzVec = sp
@@ -169,6 +170,21 @@ function waveAiry1D_pPos(sp::SpecStruct, t::Real, x::Real, z::Real;
   pz = transpose(sinh.(coefz)) * real( (pzVec .* expiαm) )
   
   return η, px, pz
+end
+
+
+function waveAiry1D_pPos(sp::SpecStruct, 
+  t::AbstractArray{<:AbstractFloat}, 
+  x::Real, z::Real; 
+  x0::Real = 0)    
+
+  res = waveAiry1D_pPos.(Ref(sp), t, Ref(x), Ref(z); x0 = x0)  
+
+  η = [r for (r, nothing, nothing) in res]
+  px = [r for (nothing, r, nothing) in res]
+  py = [r for (nothing, nothing, r) in res]  
+
+  return η, px, py
 end
 
 
@@ -305,12 +321,13 @@ end
 
 
 #----------- TimeRampType ------------#
-struct TimeRampType1 
+abstract type TimeRampTypeAll end
+struct TimeRampType1 <: TimeRampTypeAll
   t0::Real
   t1::Real  
 end
 
-struct TimeRampType2 
+struct TimeRampType2 <: TimeRampTypeAll
   t0::Real
   t1::Real  
   t2::Real  
@@ -323,6 +340,12 @@ end
 
 function TimeRampType(t0, t1, t2, tEnd)
   TimeRampType2(t0, t1, t2, tEnd)
+end
+
+function timeRamp(t::AbstractArray{<:AbstractFloat}, 
+  tRampObj::TimeRampTypeAll)
+  
+  timeRamp.(t, Ref(tRampObj))
 end
 
 function timeRamp(t::Real, tRampObj::TimeRampType1)

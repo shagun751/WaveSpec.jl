@@ -59,6 +59,20 @@ for i = 1:1000
 end
 tock()
 
+
+tick()
+@show waveAiry1D_eta(sp, 10, 0.1, -0.1)
+@show waveAiry1D_eta(sp, 100, 10, -1)
+tock()
+
+tick()
+for i = 1:1000
+    local u, w    
+    waveAiry1D_eta(sp, 10, 0.1, -0.1)
+    waveAiry1D_eta(sp, 100, 10, -1)
+end
+tock()
+
 tick()
 t=0:0.1:1200
 η, ϕ, u, w = waveAiry1D(sp, t, 0.1, -0.1)
