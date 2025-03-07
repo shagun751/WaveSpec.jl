@@ -1,6 +1,6 @@
 name = "WaveSpec"
 uuid = "908d4cf6-a6c0-449c-92e4-852c8f288332"
-authors = ["Shagun Agarwal shagun.1994@gmail.com", "Thomas Kluwer", "Oriol Colomes"]
+authors = ["Shagun Agarwal shagun.1994@gmail.com", "Oriol Colomes"]
 version = "0.2.0"
 
 [deps]
@@ -22,7 +22,7 @@ PCHIPInterpolation = "0.2"
 Plots = "1"
 Revise = "3.5"
 Roots = "2"
-julia = "1.10"
+julia = ">=1.8"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
