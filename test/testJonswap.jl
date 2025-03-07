@@ -1,7 +1,6 @@
 #module run_wave
 
 
-using   Revise
 using   DrWatson
 @quickactivate "WaveSpec"
 

@@ -3,7 +3,6 @@ module WaveFreqDom
 # This next section compiles the wave from 
 # all seperate waves into one irregular wave
 
-using Revise
 # using DrWatson
 # @quickactivate "WaveSpec"
 

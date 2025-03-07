@@ -32,6 +32,16 @@ WaveSpec is a registered package in the official [Julia package registry](https:
 pkg> add WaveSpec
 ```
 
+
+### Guidelines for Using `Revise.jl` in Development  
+
+[`Revise.jl`](https://timholy.github.io/Revise.jl/stable/) enables developers to modify dependencies and immediately reflect those changes in the active Julia REPL without requiring a restart.  
+
+While `Revise.jl` is a powerful tool, it is **not recommended** to add it as a package dependency. Instead, you should configure it to load automatically in your local Julia REPL. You can follow the instructions [here](https://timholy.github.io/Revise.jl/stable/config/#Using-Revise-by-default) to set this up.  
+
+This approach ensures that `Revise.jl` is available in your local environment, allowing you to take advantage of its features without adding it to the package itself.
+
+
 ---
 
 ## Contact

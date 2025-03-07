@@ -1,7 +1,6 @@
 module run_wave
 include("../src/jonswapThomas.jl")
 
-using   Revise
 using   WaveSpec
 using   Plots
 using   .Wave

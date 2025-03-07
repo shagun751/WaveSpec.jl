@@ -1,6 +1,5 @@
 module Jonswap
 
-using Revise
 # using DrWatson
 # @quickactivate "WaveSpec"
 

@@ -1,6 +1,5 @@
 module Currents
 
-using Revise
 # using DrWatson
 # @quickactivate "WaveSpec"
 

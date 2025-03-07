@@ -1,7 +1,5 @@
 module WaveSpec
 
-using Revise 
-
 include("Constants.jl")
 include("Jonswap.jl")
 include("Currents.jl")
